@@ -1,0 +1,23 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+const blogs = await getCollection("blog");
+
+const tagsSet = new Set(blogs.flatMap((blog) => blog.data.tags));
+const tags = Array.from(tagsSet);
+---
+
+<Layout title="Tags">
+  <ul>
+    {
+      tags.map((tag) => (
+        <li>
+          <a href={`/tags/${tag}`}>{tag}</a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
+
+<style></style>

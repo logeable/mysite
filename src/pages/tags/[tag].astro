@@ -1,0 +1,35 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+export const getStaticPaths = (async () => {
+  const blogs = await getCollection("blog");
+  const tagsSet = new Set(blogs.flatMap((blog) => blog.data.tags));
+
+  return Array.from(tagsSet).map((tag) => ({
+    params: {
+      tag,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { tag } = Astro.params;
+
+const blogs = await getCollection("blog");
+const filteredBlogs = blogs.filter((blog) => blog.data.tags.includes(tag));
+---
+
+<Layout title={tag}>
+  <ul>
+    {
+      filteredBlogs.map((blog) => (
+        <li>
+          <a href={`/blogs/${blog.id}`}>{blog.data.title}</a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
+
+<style></style>
