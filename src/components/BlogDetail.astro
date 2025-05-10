@@ -1,0 +1,15 @@
+---
+import type { DataEntryMap } from "astro:content";
+import { render } from "astro:content";
+
+type Props = DataEntryMap["blog"];
+const { blog } = Astro.props;
+
+const { Content, headings } = await render(blog);
+---
+
+<div>
+  <Content />
+</div>
+
+<style></style>

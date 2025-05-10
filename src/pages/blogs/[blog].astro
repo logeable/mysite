@@ -1,0 +1,29 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import BlogDetail from "../../components/BlogDetail.astro";
+import { getEntry } from "astro:content";
+
+export const getStaticPaths = (async () => {
+  const blogs = await getCollection("blog").then((blogs) => {
+    return blogs.map((blog) => ({
+      params: { blog: blog.id },
+    }));
+  });
+  return blogs;
+}) satisfies GetStaticPaths;
+
+const { blog: id } = Astro.params;
+
+const blog = await getEntry("blog", id);
+if (!blog) {
+  throw new Error(`Blog with id ${id} not found`);
+}
+---
+
+<Layout title={blog.data.title}>
+  <BlogDetail blog={blog} />
+</Layout>
+
+<style></style>
