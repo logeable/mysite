@@ -1,0 +1,75 @@
+---
+import CONFIG from "../config";
+
+const { pathname } = Astro.url;
+
+// Normalize the current path by removing trailing slashes (except for root "/")
+const currentPath = pathname.replace(/\/$/, "") || "/";
+
+// Check if a given path is active
+const isActive = (path: string) => {
+  if (currentPath === path) return true;
+
+  const [currentRoot] = currentPath.split("/").filter(Boolean);
+  const [pathRoot] = path.split("/").filter(Boolean);
+
+  return currentRoot === pathRoot;
+};
+
+const navigations = [
+  { name: "Posts", path: "/posts" },
+  { name: "Tags", path: "/tags" },
+  { name: "About", path: "/about" },
+];
+---
+
+<header>
+  <h1><a href="/posts">{CONFIG.name}</a></h1>
+  <nav>
+    <ul>
+      {
+        navigations.map((nav) => (
+          <li>
+            <a href={nav.path} class:list={{ active: isActive(nav.path) }}>
+              {nav.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  header {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid;
+  }
+
+  h1 a {
+    text-decoration: none;
+    color: #000;
+  }
+
+  nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: #000;
+  }
+
+  nav a:hover {
+    color: var(--primary-color);
+  }
+  nav a.active {
+    text-decoration: underline;
+    text-decoration-style: wavy;
+  }
+</style>
