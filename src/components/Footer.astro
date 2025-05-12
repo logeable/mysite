@@ -5,25 +5,33 @@
 <footer>
   <div class="socials">
     <ul>
-      <li><a>GitHub</a></li>
-      <li><a>X</a></li>
+      <li><a href="https://github.com/logeable" target="_blank">GitHub</a></li>
+      <li><a href="https://x.com/logeable" target="_blank">X</a></li>
     </ul>
   </div>
 </footer>
 
-<style>
+<style lang="scss">
   footer {
     height: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+    border-top: 1px solid #ccc;
 
-  .socials ul {
-    display: flex;
-    gap: 1rem;
-  }
-  ul {
-    list-style: none;
+    .socials ul {
+      display: flex;
+      gap: 1rem;
+
+      list-style: none;
+      a {
+        text-decoration: none;
+        color: black;
+
+        &:hover {
+          color: var(--primary-color);
+        }
+      }
+    }
   }
 </style>

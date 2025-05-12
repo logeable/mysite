@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import CONFIG from "../config.ts";
+import Footer from "../components/Footer.astro";
 interface Props {
   title: string;
 }
@@ -24,7 +25,7 @@ const { title } = Astro.props;
       <main>
         <slot />
       </main>
-      <!-- <Footer /> -->
+      <Footer />
     </div>
     <!-- Cloudflare Web Analytics -->
     <script
@@ -61,5 +62,6 @@ const { title } = Astro.props;
 
   main {
     flex: 1;
+    padding: 3rem 3rem;
   }
 </style>

@@ -1,0 +1,30 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="About">
+  <article>
+    <p>你好！我是一名后端工程师，拥有 10 年的开发经验。</p>
+    <p>
+      我专注于 Go 和 Rust，擅长网络协议、高性能系统以及安全远程访问方向的研发。
+    </p>
+    <p>
+      我热衷于构建高效的开发工具，持续探索新技术，并在技术深度与项目落地之间取得平衡。
+    </p>
+    <p>欢迎与我联系，一起交流！</p>
+  </article>
+  <img class="wechat" src="/public/images/wechat.jpg" width="200" />
+
+  <style>
+    article {
+      max-width: 60%;
+      margin: 0 auto;
+    }
+
+    img.wechat {
+      display: block;
+      margin: 0 auto;
+      margin-top: 5rem;
+    }
+  </style>
+</Layout>
