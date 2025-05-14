@@ -1,0 +1,29 @@
+.markdown-body {
+  line-height: 1.75;
+  color: #333;
+  max-width: 1024px;
+  margin: 0 auto;
+  h1 {
+    font-size: 2em;
+    border-bottom: 1px solid #ddd;
+  }
+  p {
+    margin-top: 1em;
+  }
+
+  ul,
+  ol {
+    margin-left: 1.5rem;
+  }
+
+  blockquote {
+    border-left: 4px solid #ddd;
+    padding-left: 1rem;
+  }
+
+  code {
+    background-color: #f0f0f0;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.2rem;
+  }
+}

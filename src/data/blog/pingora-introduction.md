@@ -1,5 +1,5 @@
 ---
-title: Pingora介绍
+title: Pingora-介绍
 publishDate: 2025-05-14T22:42:00+08:00
 author: logeable
 description: Pingora是Cloudflare内部使用Rust构建的HTTP代理。它已被设计用于连接Cloudflare到互联网，每天处理万亿请求，并为Cloudflare客户带来许多新功能。Cloudflare已将其开源，作为一个Rust框架，用于构建可编程的网络服务。
