@@ -5,11 +5,28 @@ import { render } from "astro:content";
 type Props = DataEntryMap["blog"];
 const { blog } = Astro.props;
 
-const { Content, headings } = await render(blog);
+const { Content } = await render(blog);
 ---
 
-<div>
+<article class="markdown-body">
   <Content />
-</div>
+</article>
 
-<style></style>
+<style lang="scss" is:global>
+  .markdown-body {
+    line-height: 1.75;
+    color: #333;
+    max-width: 800px;
+    h1 {
+      font-size: 2em;
+      border-bottom: 1px solid #ddd;
+    }
+    p {
+      margin-top: 1em;
+    }
+
+    ul {
+      margin-left: 1rem;
+    }
+  }
+</style>
