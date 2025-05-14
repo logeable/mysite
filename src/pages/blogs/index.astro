@@ -11,7 +11,11 @@ const blogs = await getCollection("blog");
       {
         blogs.map((blog: any) => (
           <li>
-            <a href={`/blogs/${blog.id}`}>{blog.data.title}</a>
+            <h2>
+              <a href={`/blogs/${blog.id}`}>{blog.data.title}</a>
+            </h2>
+            <p class="date">{blog.data.publishDate.toLocaleDateString()}</p>
+            <p class="description">{blog.data.description}</p>
           </li>
         ))
       }
@@ -19,4 +23,22 @@ const blogs = await getCollection("blog");
   </div>
 </Layout>
 
-<style></style>
+<style lang="scss">
+  .container {
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li {
+        margin-bottom: 20px;
+        .date {
+          font-size: 12px;
+          color: #666;
+        }
+        .description {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+</style>
