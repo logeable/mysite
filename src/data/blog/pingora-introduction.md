@@ -6,7 +6,7 @@ description: Pingora是Cloudflare内部使用Rust构建的HTTP代理。它已被
 tags: ["Pingora", "Rust", "Nginx", "HTTP"]
 ---
 
-# 什么是 Pingora
+## 什么是 Pingora
 
 **主要特点和优势：**
 
@@ -22,7 +22,7 @@ tags: ["Pingora", "Rust", "Nginx", "HTTP"]
 
 Pingora 被设计为一个库和工具集，而不是一个可执行的二进制文件[^2]。它为构建 HTTP/1 和 HTTP/2、TLS 或仅 TCP/UDP 之上的服务提供了构建块，并支持 HTTP/1 和 HTTP/2 端到端、gRPC 和 websocket 代理[^2]。
 
-# Cloudflare 为什么要创造 Pingora
+## Cloudflare 为什么要创造 Pingora
 
 Pingora 是 Cloudflare 开发的，一个基于 Rust 编程语言的高性能网络服务器框架。
 
@@ -47,7 +47,7 @@ Cloudbleed 安全漏洞：Cloudflare 曾发生 Cloudbleed 安全漏洞，该漏�
 - 安全性：Rust 提供了更安全的内存选择。
 - 其他特性：Pingora 支持 HTTP/1、HTTP/2、TLS、gRPC 和 WebSocket 代理，支持零停机优雅重启，并具备可定制的负载均衡和故障转移策略。
 
-# Pingora 高性能实现的关键机制
+## Pingora 高性能实现的关键机制
 
 Pingora 之所以能够实现卓越的性能和效率，主要得益于以下几个方面的设计:
 
