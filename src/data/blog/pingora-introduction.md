@@ -24,11 +24,11 @@ Pingora 被设计为一个库和工具集，而不是一个可执行的二进制
 
 # Cloudflare 为什么要创造 Pingora
 
-Pingora 是 Cloudflare 开发的，一个基于 Rust 编程语言的高性能网络服务器框架 ¹。
+Pingora 是 Cloudflare 开发的，一个基于 Rust 编程语言的高性能网络服务器框架。
 
 **开发背景：**
 
-替代 Nginx：Cloudflare 在 2022 年宣布放弃 Nginx，转而使用内部 Rust 编写的软件 Pingora¹。Cloudflare 发现，随着其业务规模的扩大，Nginx 在性能和满足复杂环境所需功能方面存在瓶颈 [^3]。
+替代 Nginx：Cloudflare 在 2022 年宣布放弃 Nginx，转而使用内部 Rust 编写的软件 Pingora。Cloudflare 发现，随着其业务规模的扩大，Nginx 在性能和满足复杂环境所需功能方面存在瓶颈 [^3]。
 
 **Nginx 架构的限制：**
 
