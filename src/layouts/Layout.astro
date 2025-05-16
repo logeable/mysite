@@ -9,6 +9,7 @@ interface Props {
   description?: string;
   publishDate?: Date;
   modifiedDate?: Date;
+  ogImage?: string;
 }
 
 const {
@@ -17,6 +18,7 @@ const {
   description,
   publishDate,
   modifiedDate,
+  ogImage,
 } = Astro.props;
 
 const jsonLDData = {
@@ -32,7 +34,8 @@ const jsonLDData = {
   dateModified: modifiedDate,
 };
 
-const selfURL = Astro.url.toString();
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = ogImage;
 ---
 
 <!doctype html>
@@ -52,13 +55,15 @@ const selfURL = Astro.url.toString();
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={selfURL} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={socialImageURL} />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={selfURL} />
+    <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={socialImageURL} />
 
     <!-- Google JSON-LD Structured data -->
     <script
