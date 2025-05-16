@@ -20,9 +20,15 @@ const blog = await getEntry("blog", id);
 if (!blog) {
   throw new Error(`Blog with id ${id} not found`);
 }
+
+const layoutProps = {
+  title: blog.data.title,
+  description: blog.data.description,
+  publishDate: blog.data.publishDate,
+};
 ---
 
-<Layout title={blog.data.title}>
+<Layout {...layoutProps}>
   <BlogDetail blog={blog} />
 </Layout>
 

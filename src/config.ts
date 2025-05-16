@@ -1,6 +1,6 @@
 export const CONFIG = {
-    title_prefix: 'logeable',
-    name: 'logeable',
-}
+  title: "logeable",
+  author: "logeable",
+};
 
-export default CONFIG
+export default CONFIG;
