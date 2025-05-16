@@ -1,8 +1,8 @@
 ---
-import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import { getBlogsByPublishDateDesc } from "../../utils/blog";
 
-const blogs = await getCollection("blog");
+const blogs = await getBlogsByPublishDateDesc();
 ---
 
 <Layout title="Blog">
