@@ -4,7 +4,9 @@ publishDate: 2025-05-21T10:46:31.0800
 author: logeable
 description: 证书与空间一体化管理界面，支持空间分栏、证书树展示及多种证书操作。
 tags: ["UI", "CertMgr", "证书管理", "设计"]
+
 ---
+import Mermaid from "@components/Mermaid.astro";
 
 ## [查看原型设计](/projects/certmgr)
 
@@ -13,7 +15,6 @@ tags: ["UI", "CertMgr", "证书管理", "设计"]
 - **界面采用左右分栏布局**：
   - **左侧为菜单区域**，风格简洁，仅包含"空间管理"和"证书管理"两个主菜单。
   - **右侧为主内容区**，根据左侧菜单切换显示对应功能界面。
-
 ---
 
 ## 左侧菜单区域
@@ -101,6 +102,7 @@ tags: ["UI", "CertMgr", "证书管理", "设计"]
 
 ## 流程示意
 
+<Mermaid>
 ```mermaid
 flowchart LR
     Menu[左侧菜单]
@@ -122,7 +124,7 @@ flowchart LR
     CertNode --> RenewCert["续签(模态框)"]
     CertTree --> Empty[无证书时弹出根证书模态框]
 ```
-
+</Mermaid>
 ---
 
 ## 界面示意（文字版）

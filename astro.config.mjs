@@ -10,7 +10,11 @@ import mdx from "@astrojs/mdx";
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.logeable.com",
-  integrations: [expressiveCode({
-    themes: ["dracula"],
-  }), sitemap(), mdx()],
+  integrations: [
+    expressiveCode({
+      themes: ["dracula"],
+    }),
+    sitemap(),
+    mdx(),
+  ],
 });
