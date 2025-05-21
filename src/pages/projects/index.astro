@@ -5,6 +5,7 @@ const projects = [
   {
     title: "CertMgr",
     desc: "CertMgr 是一个用于空间和证书管理的原型系统，支持空间分组、证书树管理及证书签发、续签等操作，界面简洁直观。",
+    github: "https://github.com/logeable/certmgr",
     link: "/projects/certmgr",
   },
 ];
@@ -19,6 +20,12 @@ const projects = [
             <div class="project-title">{project.title}</div>
             <div class="project-desc">{project.desc}</div>
           </a>
+
+          <div class="project-links">
+            <a href={project.github} target="_blank" class="github">
+              GitHub
+            </a>
+          </div>
         </div>
       ))
     }
@@ -48,6 +55,18 @@ const projects = [
     text-decoration: none;
     color: inherit;
   }
+
+  .project-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+    justify-content: flex-end;
+  }
+  .project-links .github {
+    color: #555;
+    font-size: 1rem;
+  }
+
   .project-title {
     font-size: 22px;
     font-weight: bold;
