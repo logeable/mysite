@@ -10,5 +10,9 @@ const { Content } = await render(blog);
 ---
 
 <article class="markdown-body">
+  <div class="blog-detail-header">
+    <h1>{blog.data.title}</h1>
+    <p>{blog.data.description}</p>
+  </div>
   <Content />
 </article>
