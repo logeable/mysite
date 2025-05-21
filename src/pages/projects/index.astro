@@ -1,0 +1,60 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const projects = [
+  {
+    title: "CertMgr",
+    desc: "CertMgr 是一个用于空间和证书管理的原型系统，支持空间分组、证书树管理及证书签发、续签等操作，界面简洁直观。",
+    link: "/projects/certmgr",
+  },
+];
+---
+
+<Layout title="Projects">
+  <div class="project-list">
+    {
+      projects.map((project) => (
+        <div class="project-card">
+          <a href={project.link}>
+            <div class="project-title">{project.title}</div>
+            <div class="project-desc">{project.desc}</div>
+          </a>
+        </div>
+      ))
+    }
+  </div>
+</Layout>
+
+<style>
+  .project-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 32px;
+  }
+  .project-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    padding: 24px;
+    width: 300px;
+    transition: box-shadow 0.2s;
+  }
+  .project-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  .project-card a {
+    text-decoration: none;
+    color: inherit;
+  }
+  .project-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+  .project-desc {
+    color: #555;
+    font-size: 16px;
+  }
+</style>
