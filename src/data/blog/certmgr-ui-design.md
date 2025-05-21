@@ -3,7 +3,7 @@ title: CertMgr 界面设计
 publishDate: 2025-05-21T10:46:31.0800
 author: logeable
 description: 证书与空间一体化管理界面，支持空间分栏、证书树展示及多种证书操作。
-tags: ["UI/UX", "CertMgr", "证书管理"]
+tags: ["UI", "CertMgr", "证书管理", "设计"]
 ---
 
 ## [查看原型设计](/projects/certmgr)
@@ -142,5 +142,3 @@ flowchart LR
         - client1
         - client2
   - 右键菜单：签发新证书 | 删除证书 | 查看详情 | 查看私钥 | 续签
-
----
