@@ -55,6 +55,14 @@ const blogs = await getBlogsByPublishDateDesc();
         border-radius: 3px;
         font-size: 0.5rem;
       }
+
+      a {
+        text-decoration: none;
+        color: #000;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
     .date {
       font-style: italic;
