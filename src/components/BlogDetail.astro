@@ -11,8 +11,30 @@ const { Content } = await render(blog);
 
 <article class="markdown-body">
   <div class="blog-detail-header">
-    <h1>{blog.data.title}</h1>
+    <h1 class="title">
+      {blog.data.title}
+      {blog.data.isAI && <span class="ai-mark">AI</span>}
+    </h1>
     <p>{blog.data.description}</p>
   </div>
   <Content />
 </article>
+
+<style>
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .ai-mark {
+      user-select: none;
+      pointer-events: none;
+      background-color: #000;
+      border-radius: 3px;
+      color: #fff;
+      padding: 0 5px;
+
+      font-size: 1rem;
+    }
+  }
+</style>

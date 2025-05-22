@@ -11,8 +11,9 @@ const blogs = await getBlogsByPublishDateDesc();
       {
         blogs.map((blog: any) => (
           <li>
-            <h2>
+            <h2 class="title">
               <a href={`/blogs/${blog.id}`}>{blog.data.title}</a>
+              {blog.data.isAI && <span class="ai-mark">AI</span>}
             </h2>
             <p class="date">{blog.data.publishDate.toLocaleDateString()}</p>
             <p class="description">{blog.data.description}</p>
@@ -39,6 +40,24 @@ const blogs = await getBlogsByPublishDateDesc();
           font-size: 14px;
         }
       }
+    }
+    .title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 5px;
+      .ai-mark {
+        user-select: none;
+        pointer-events: none;
+        background-color: #000;
+        color: #fff;
+        padding: 3px;
+        border-radius: 3px;
+        font-size: 0.5rem;
+      }
+    }
+    .date {
+      font-style: italic;
     }
   }
 </style>
