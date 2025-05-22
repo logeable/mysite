@@ -13,9 +13,15 @@ const { Content } = await render(blog);
   <div class="blog-detail-header">
     <h1 class="title">
       {blog.data.title}
-      {blog.data.isAI && <span class="ai-mark">AI</span>}
     </h1>
     <p>{blog.data.description}</p>
+    {
+      blog.data.isAI && (
+        <p class="ai-mark-container">
+          <span class="ai-mark">本文由 AI 自动生成，内容仅供参考。</span>
+        </p>
+      )
+    }
   </div>
   <Content />
 </article>
@@ -25,16 +31,14 @@ const { Content } = await render(blog);
     display: flex;
     align-items: center;
     gap: 10px;
+  }
 
+  .ai-mark-container {
+    text-align: right;
     .ai-mark {
-      user-select: none;
-      pointer-events: none;
-      background-color: #000;
-      border-radius: 3px;
-      color: #fff;
-      padding: 0 5px;
-
-      font-size: 1rem;
+      font-style: italic;
+      padding: 0.25rem 0.5rem;
+      background-color: rgb(227, 190, 151);
     }
   }
 </style>
