@@ -21,8 +21,19 @@
     font-size: 2em;
     border-bottom: 1px solid #ddd;
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
   p {
-    margin-top: 1em;
+    margin: 0.5rem 0;
   }
 
   ul,
@@ -39,5 +50,19 @@
     background-color: #f0f0f0;
     padding: 0.2rem 0.5rem;
     border-radius: 0.2rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    th {
+      background-color: #f0f0f0;
+    }
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+    }
   }
 }

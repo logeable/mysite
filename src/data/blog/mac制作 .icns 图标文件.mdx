@@ -1,0 +1,124 @@
+---
+title: Mac 制作 .icns 图标文件
+publishDate: 2025-05-26T16:46:17.569Z
+author: logeable
+description: 在 macOS 系统中，应用程序图标通常使用 .icns 格式，它包含了多种分辨率的图标，用于在不同场景（如 Dock、Finder、应用切换器）中呈现清晰的图标效果。
+tags: ["mac", "icns", "图标", "electron"]
+---
+
+## 准备工作
+
+1. 原始图标文件
+
+首先你需要准备一张高分辨率的图标图像，推荐使用 1024x1024 像素 的 PNG 图片，命名为：`icon.png`。
+这张图将被缩放为多个尺寸，用于适配不同的显示环境。
+
+2. 创建 icon.iconset 目录
+
+按照 `iconutil` 的要求，将多尺寸的图标文件放在一个名为 `.iconset` 后缀得的文件夹中，这里我们创建一个 `icon.iconset` 目录。
+
+```bash
+mkdir icon.iconset
+```
+
+## 生成多尺寸图标
+
+1. icns 文件支持以下图标尺寸：
+
+|**文件名**|**尺寸**|**用途**|
+|---|---|---|
+|icon_16x16.png|16×16|Finder列表小图标等|
+|icon_16x16@2x.png|32×32|Retina 显示下的小图标|
+|icon_32x32.png|32×32|Finder图标|
+|icon_32x32@2x.png|64×64|Retina 显示下|
+|icon_128x128.png|128×128|快速预览图标|
+|icon_128x128@2x.png|256×256|Retina 显示下|
+|icon_256x256.png|256×256|Launchpad 图标|
+|icon_256x256@2x.png|512×512|Retina 显示下|
+|icon_512x512.png|512×512|Launchpad 大图标|
+|icon_512x512@2x.png|1024×1024|Retina 显示下的大图标|
+
+2. 使用 sips 工具
+
+sips 是 macOS 自带的图片处理工具，我们用它来创建不同尺寸的图像：
+
+```bash
+sips -z 16 16     icon.png --out icon.iconset/icon_16x16.png
+sips -z 32 32     icon.png --out icon.iconset/icon_16x16@2x.png
+sips -z 32 32     icon.png --out icon.iconset/icon_32x32.png
+sips -z 64 64     icon.png --out icon.iconset/icon_32x32@2x.png
+sips -z 128 128   icon.png --out icon.iconset/icon_128x128.png
+sips -z 256 256   icon.png --out icon.iconset/icon_128x128@2x.png
+sips -z 256 256   icon.png --out icon.iconset/icon_256x256.png
+sips -z 512 512   icon.png --out icon.iconset/icon_256x256@2x.png
+sips -z 512 512   icon.png --out icon.iconset/icon_512x512.png
+cp icon.png              icon.iconset/icon_512x512@2x.png
+```
+
+## 打包为 .icns 文件
+
+现在我们已经得到了完整的 `icon.iconset` 目录，接下来使用 `iconutil` 打包：
+
+```bash
+iconutil -c icns icon.iconset
+```
+执行后，得到一个名为 `icon.icns` 的文件。
+
+## 完整脚本
+
+```bash
+#!/bin/bash
+
+# 用法说明
+if [ $# -ne 1 ]; then
+  echo "用法: $0 icon.png"
+  exit 1
+fi
+
+ICON_SRC="$1"
+
+# 检查文件是否存在
+if [ ! -f "$ICON_SRC" ]; then
+  echo "错误: 文件 $ICON_SRC 不存在"
+  exit 1
+fi
+
+ICON_NAME="icon"
+ICONSET="${ICON_NAME}.iconset"
+ICNS_FILE="${ICON_NAME}.icns"
+
+# 创建 icon.iconset 目录
+mkdir -p "$ICONSET"
+
+# 生成多尺寸图标
+echo "正在生成多尺寸图标..."
+
+sips -z 16 16     "$ICON_SRC" --out "$ICONSET/icon_16x16.png"
+sips -z 32 32     "$ICON_SRC" --out "$ICONSET/icon_16x16@2x.png"
+sips -z 32 32     "$ICON_SRC" --out "$ICONSET/icon_32x32.png"
+sips -z 64 64     "$ICON_SRC" --out "$ICONSET/icon_32x32@2x.png"
+sips -z 128 128   "$ICON_SRC" --out "$ICONSET/icon_128x128.png"
+sips -z 256 256   "$ICON_SRC" --out "$ICONSET/icon_128x128@2x.png"
+sips -z 256 256   "$ICON_SRC" --out "$ICONSET/icon_256x256.png"
+sips -z 512 512   "$ICON_SRC" --out "$ICONSET/icon_256x256@2x.png"
+sips -z 512 512   "$ICON_SRC" --out "$ICONSET/icon_512x512.png"
+cp "$ICON_SRC"            "$ICONSET/icon_512x512@2x.png"
+
+# 打包为 .icns 文件
+echo "正在打包为 $ICNS_FILE..."
+iconutil -c icns "$ICONSET" -o "$ICNS_FILE"
+
+# 检查是否成功
+if [ $? -eq 0 ]; then
+  echo "已成功生成 $ICNS_FILE"
+else
+  echo "打包失败"
+fi
+```
+
+将脚本保存为 `make_icns.sh` 后使用：
+
+```bash
+chmod +x make_icns.sh
+./make_icns.sh icon.png
+```
