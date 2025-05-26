@@ -2,6 +2,7 @@
 import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import BlogList from "@components/BlogList.astro";
 
 export const getStaticPaths = (async () => {
   const blogs = await getCollection("blog");
@@ -21,6 +22,11 @@ const filteredBlogs = blogs.filter((blog) => blog.data.tags.includes(tag));
 ---
 
 <Layout title={tag}>
+  <h1>TAG: {tag}</h1>
+  <BlogList blogs={filteredBlogs} />
+</Layout>
+
+<!-- <Layout title={tag}>
   <ul>
     {
       filteredBlogs.map((blog) => (
@@ -30,6 +36,12 @@ const filteredBlogs = blogs.filter((blog) => blog.data.tags.includes(tag));
       ))
     }
   </ul>
-</Layout>
+</Layout> -->
 
-<style></style>
+<style>
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+</style>

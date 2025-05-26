@@ -1,4 +1,4 @@
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
 
 export const getBlogsByPublishDateDesc = async () => {
   const blogs = await getCollection("blog");

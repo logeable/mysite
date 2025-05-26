@@ -6,18 +6,53 @@ const blogs = await getCollection("blog");
 
 const tagsSet = new Set(blogs.flatMap((blog) => blog.data.tags));
 const tags = Array.from(tagsSet);
+
+const tagsCountMapping = tags.map((tag) => ({
+  tag,
+  count: blogs.filter((blog) => blog.data.tags.includes(tag)).length,
+}));
+
+const sortedTagsCountMapping = tagsCountMapping.sort(
+  (a, b) => b.count - a.count
+);
 ---
 
 <Layout title="Tags">
   <ul>
     {
-      tags.map((tag) => (
+      sortedTagsCountMapping.map((tag) => (
         <li>
-          <a href={`/tags/${tag}`}>{tag}</a>
+          <a href={`/tags/${tag.tag}`}>
+            {tag.tag} ({tag.count})
+          </a>
         </li>
       ))
     }
   </ul>
 </Layout>
 
-<style></style>
+<style lang="scss">
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: black;
+      text-decoration: none;
+      font-size: 1.2rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      text-decoration-style: wavy;
+    }
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+</style>
