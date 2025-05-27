@@ -50,8 +50,8 @@ const sortedTagsCountMapping = tagsCountMapping.sort(
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: #f7f7fa;
-    color: #222;
+    background: var(--bg-color);
+    color: var(--text-color);
     text-decoration: none;
     font-size: 1.1rem;
     font-weight: 500;
@@ -64,7 +64,7 @@ const sortedTagsCountMapping = tagsCountMapping.sort(
       transform 0.15s;
 
     &:hover {
-      background: #e0e7ff;
+      background: var(--bg-color);
       color: var(--primary-color);
       box-shadow: 0 4px 16px 0 rgba(60, 60, 60, 0.12);
       transform: translateY(-2px) scale(1.04);

@@ -1,6 +1,27 @@
 :root {
   --primary-color: #3498db;
+  --bg-color: #fff;
+  --text-color: #222;
+  --text-color-secondary: #555;
+  --border-color: #e5e7eb;
+  --table-hover-color: #e6f0fa;
+  --blog-header-bg-color: #f7faff;
+  --blog-table-header-bg-color: #f0f4fa;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #60a5fa;
+    --bg-color: #18181c;
+    --text-color-secondary: #ccc;
+    --text-color: #eee;
+    --border-color: #333;
+    --table-hover-color: #222;
+    --blog-header-bg-color: #18181c;
+    --blog-table-header-bg-color: #18181c;
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -25,6 +46,8 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei",
     sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
 }
 
 code,

@@ -59,6 +59,10 @@ const navigations = [
     justify-content: space-between;
     border-bottom: 3px solid #ccc;
     position: relative;
+    background: #fff;
+    transition:
+      background 0.2s,
+      border-bottom-color 0.2s;
   }
 
   .logo a {
@@ -67,6 +71,7 @@ const navigations = [
     font-weight: bolder;
     font-size: 2rem;
     white-space: nowrap;
+    transition: color 0.2s;
   }
 
   .burger {
@@ -87,7 +92,7 @@ const navigations = [
     width: 100%;
     background: #222;
     border-radius: 2px;
-    transition: all 0.3s;
+    transition: background 0.2s;
   }
 
   nav ul {
@@ -97,6 +102,8 @@ const navigations = [
     margin: 0;
     padding: 0;
     flex-wrap: wrap;
+    background: #fff;
+    transition: background 0.2s;
   }
 
   nav a {
@@ -107,8 +114,8 @@ const navigations = [
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
     transition:
-      background 0.2s,
-      color 0.2s;
+      color 0.2s,
+      background 0.2s;
   }
 
   nav a:hover {
@@ -155,6 +162,29 @@ const navigations = [
     nav a {
       font-size: 0.95rem;
       padding: 0.15rem 0.4rem;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    header {
+      background: #18181c;
+      border-bottom-color: #333;
+    }
+    .logo a {
+      color: #fff;
+    }
+    .burger span {
+      background: #eee;
+    }
+    nav ul {
+      background: #23232a;
+    }
+    nav a {
+      color: #eee;
+    }
+    nav a:hover,
+    nav a.active {
+      color: var(--primary-color);
     }
   }
 </style>
