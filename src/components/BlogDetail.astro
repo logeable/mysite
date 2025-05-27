@@ -101,15 +101,39 @@ const { Content } = await render(blog);
 
     table {
       width: 100%;
-      border-collapse: collapse;
-      margin: 1rem 0;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 1.5rem 0;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
       th {
-        background-color: #f0f0f0;
+        background: linear-gradient(90deg, #f0f4fa 0%, #e9f1fb 100%);
+        color: #222;
+        font-weight: 700;
+        font-size: 1.05rem;
+        padding: 0.75rem 0.5rem;
+        border-bottom: 2px solid #e0e7ef;
+      }
+      tr {
+        &:nth-child(even) {
+          background: #f8fafc;
+        }
+        &:hover {
+          background: #e6f0fa;
+          transition: background 0.2s;
+        }
       }
       th,
       td {
-        border: 1px solid #ddd;
-        padding: 0.5rem;
+        border: none;
+        padding: 0.75rem 0.5rem;
+        text-align: left;
+      }
+      td {
+        font-size: 1rem;
+        color: #444;
       }
     }
   }
