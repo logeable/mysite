@@ -57,16 +57,50 @@ const { Content } = await render(blog);
     }
 
     .blog-detail-header {
-      h1 {
+      margin-bottom: 2em;
+      background: linear-gradient(90deg, #f7faff 0%, #f0f4fa 100%);
+      padding: 2rem 2.5rem 1.5rem 2.5rem;
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 24px 0 rgba(60, 60, 60, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.7rem;
+
+      .title {
+        font-size: 2em;
+        font-weight: 800;
+        margin: 0 0 0.3em 0;
+        letter-spacing: 0.5px;
         border: none;
+        line-height: 1.2;
+        position: relative;
       }
+
       p {
-        margin-top: 1em;
+        margin: 0.5em 0 0 0;
+        color: #64748b;
+        font-size: 1.1em;
+        font-weight: 500;
+        line-height: 1.6;
       }
-      margin-bottom: 2rem;
-      background-color: #f0f0f0;
-      padding: 1rem;
-      border-radius: 0.5rem;
+
+      .ai-mark-container {
+        align-self: flex-end;
+        margin-top: 0.2rem;
+        .ai-mark {
+          display: inline-block;
+          font-style: italic;
+          font-size: 0.95rem;
+          padding: 0.25rem 0.8rem;
+          background: linear-gradient(90deg, #0070f3 0%, #00c6ff 100%);
+          color: #fff;
+          border-radius: 6px;
+          font-weight: 600;
+          letter-spacing: 1px;
+          box-shadow: 0 1px 4px rgba(0, 112, 243, 0.08);
+        }
+      }
     }
 
     h1 {
