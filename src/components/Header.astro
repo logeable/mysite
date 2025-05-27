@@ -26,8 +26,18 @@ const navigations = [
 
 <header>
   <h1><a href="/">{CONFIG.author}</a></h1>
+  <button
+    class="burger"
+    id="burger-btn"
+    aria-label="菜单"
+    aria-expanded="false"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
   <nav>
-    <ul>
+    <ul id="nav-menu">
       {
         navigations.map((nav) => (
           <li>
@@ -48,23 +58,56 @@ const navigations = [
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #ccc;
+    position: relative;
   }
 
   h1 a {
     text-decoration: none;
     color: #000;
     font-weight: bolder;
+    font-size: 1.5rem;
+    white-space: nowrap;
+  }
+
+  .burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 20;
+  }
+  .burger span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: #222;
+    border-radius: 2px;
+    transition: all 0.3s;
   }
 
   nav ul {
     display: flex;
     list-style: none;
     gap: 1rem;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
   }
 
   nav a {
     text-decoration: none;
     color: #000;
+    font-size: 1rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    transition:
+      background 0.2s,
+      color 0.2s;
   }
 
   nav a:hover {
@@ -73,5 +116,65 @@ const navigations = [
   nav a.active {
     text-decoration: underline;
     text-decoration-style: wavy;
+    color: var(--primary-color);
+  }
+
+  @media (max-width: 600px) {
+    .burger {
+      display: flex;
+      margin-left: auto;
+    }
+    nav ul {
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: #fff;
+      flex-direction: column;
+      gap: 0;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      padding: 0.5rem 0;
+      display: none;
+      z-index: 10;
+      transition: all 0.3s;
+    }
+    nav ul.open {
+      display: flex;
+    }
+    nav li {
+      width: 100%;
+      text-align: center;
+      padding: 0.7rem 0;
+    }
+    header {
+      padding: 0.5rem 0.5rem 0 0.5rem;
+      align-items: flex-start;
+      gap: 0.3rem;
+    }
+    nav ul {
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    nav a {
+      font-size: 0.95rem;
+      padding: 0.15rem 0.4rem;
+    }
   }
 </style>
+
+<script is:inline>
+  const burger = document.getElementById("burger-btn");
+  const menu = document.getElementById("nav-menu");
+  burger.addEventListener("click", () => {
+    const expanded = burger.getAttribute("aria-expanded") === "true";
+    burger.setAttribute("aria-expanded", !expanded);
+    menu.classList.toggle("open");
+  });
+  // 点击菜单项后自动收起
+  menu.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      burger.setAttribute("aria-expanded", false);
+      menu.classList.remove("open");
+    });
+  });
+</script>
