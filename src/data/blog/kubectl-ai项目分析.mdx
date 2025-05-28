@@ -9,7 +9,6 @@ import Mermaid from "@components/Mermaid.astro";
 
 ## 项目简介
 
-
 [kubectl-ai](https://github.com/GoogleCloudPlatform/kubectl-ai) 是一个终端运行的k8s agent命令行工具，它能够让用户通过自然语言和k8s进行交互。
 实现原理是利用大语言模型分析用户输入并进行推理，然后按照用户的意图执行匹配的`kubectl`命令，最后把结果结构化的展示给用户。
 
@@ -30,6 +29,7 @@ k8s API 是声明式的，用户只需要声明期望的状态，不需要指导
 
 ## 使用方法
 
+### 交互模式
 - git clone 项目，配置环境变量后直接执行 `go run` 命令运行程序
 
 这里我直接使用兼容`openai`接口的[deepseek API](https://api-docs.deepseek.com/zh-cn/)。
@@ -104,6 +104,14 @@ export OPENAI_ENDPOINT=https://api.deepseek.com
     - 或者从 [releases page](https://github.com/GoogleCloudPlatform/kubectl-ai/releases/latest) 下载
 
     解压并放到合适的目录
+
+### MCP模式
+
+这里以`Cherry Studio`为例，配置MCP服务。
+![kubectl-ai-mcp-cherry-studio-config](src/assets/blog-images/kubectl-ai项目分析/kubectl-ai-mcp-cherry-studio-config.png)
+
+效果如下：
+![kubectl-ai-mcp-demo](/src/assets/blog-images/kubectl-ai项目分析/kubectl-ai-mcp-demo.png)
 
 ---
 
