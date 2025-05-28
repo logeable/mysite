@@ -5,8 +5,9 @@
   --text-color-secondary: #555;
   --border-color: #e5e7eb;
   --table-hover-color: #e6f0fa;
-  --blog-header-bg-color: #f7faff;
+  --blog-header-bg-color: #eaf0fb;
   --blog-table-header-bg-color: #f0f4fa;
+  --code-bg-color: #f0f4fa;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,6 +20,7 @@
     --table-hover-color: #222;
     --blog-header-bg-color: #18181c;
     --blog-table-header-bg-color: #18181c;
+    --code-bg-color: #18181c;
   }
 }
 
