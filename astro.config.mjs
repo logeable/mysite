@@ -6,6 +6,7 @@ import expressiveCode from "astro-expressive-code";
 import sitemap from "@astrojs/sitemap";
 
 import mdx from "@astrojs/mdx";
+import rehypeExternalLinks from "rehype-external-links";
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,4 +18,12 @@ export default defineConfig({
     sitemap(),
     mdx(),
   ],
+  markdown: {
+    rehypePlugins: [
+      [
+        rehypeExternalLinks,
+        { content: { type: "text", value: "⤴" }, target: "_blank" },
+      ],
+    ],
+  },
 });
