@@ -1,0 +1,34 @@
+---
+title: vscode/cursor重启Go调试进程异常
+publishDate: 2025-09-13T09:32:17+08:00
+author: logeable
+description: 在 Cursor/VSCode 中使用 Go 调试工具 Delve 时，发现 v1.25.1 存在重启调试进程异常的问题，已在 v1.25.2 修复，建议尽快升级。
+tags: ["vscode", "cursor", "debug", "go", "调试器"]
+---
+
+## 记一次 Delve 调试器的“重启异常”问题排查
+
+最近在 Cursor 中使用 Go 调试工具 Delve (dlv) 时，遇到了一个比较奇怪的问题：项目在 调试模式 下运行一切正常，但只要尝试重启调试进程，就会出现异常，导致整个调试流程被打断。
+
+一开始我的 workaround 是：先终止调试进程，再重新启动。虽然能绕过去，但操作非常繁琐 —— 每次都要 pgrep 找到进程再 kill 掉，开发体验实在不佳。
+
+## 排查过程
+
+出问题后，我首先怀疑是 IDE 配置或者代码本身的问题，但排查后发现都不是。于是我决定去 GitHub 上搜索一下相关的 issue。果然，这个问题已经有人反馈了。
+
+经过对比版本，发现问题出现在 Delve v1.25.1：
+- 该版本对 restart 功能 做了一些调整；
+- 结果无意中引入了 bug，导致在调试模式下重启进程异常。
+
+## 官方修复
+
+幸运的是，Delve 社区响应很快。这个问题已经在 v1.25.2 中被修复，对应的修复 PR 是：
+
+[👉 service/dap: fix restart while the target is running #4068](https://github.com/go-delve/delve/pull/4068)
+
+![release v1.25.2](src/assets/blog-images/vscode-cursor-restart-debugger/release-v1.25.2.png)
+
+所以只需要升级 Delve 到最新版本即可：
+```shell
+go install github.com/go-delve/delve/cmd/dlv@latest
+```
