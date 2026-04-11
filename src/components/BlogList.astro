@@ -1,6 +1,7 @@
 ---
 import type { DataEntryMap } from "astro:content";
 import Layout from "../layouts/Layout.astro";
+import { getBlogUrl } from "../utils/blog";
 
 type BlogEntry = DataEntryMap["blog"][string];
 type Props = {
@@ -16,7 +17,7 @@ const { blogs } = Astro.props;
       blogs.map((blog: any) => (
         <li>
           <h2 class="title">
-            <a href={`/blogs/${blog.id}`}>{blog.data.title}</a>
+            <a href={getBlogUrl(blog)}>{blog.data.title}</a>
             {blog.data.isAI && <span class="ai-mark">AI</span>}
           </h2>
           <p class="date">{blog.data.publishDate.toLocaleDateString()}</p>

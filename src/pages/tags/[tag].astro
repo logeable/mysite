@@ -3,6 +3,7 @@ import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import BlogList from "@components/BlogList.astro";
+import { getBlogUrl } from "../../utils/blog";
 
 export const getStaticPaths = (async () => {
   const blogs = await getCollection("blog");
@@ -31,7 +32,7 @@ const filteredBlogs = blogs.filter((blog) => blog.data.tags.includes(tag));
     {
       filteredBlogs.map((blog) => (
         <li>
-          <a href={`/blogs/${blog.id}`}>{blog.data.title}</a>
+          <a href={getBlogUrl(blog)}>{blog.data.title}</a>
         </li>
       ))
     }

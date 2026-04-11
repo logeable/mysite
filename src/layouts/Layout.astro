@@ -10,6 +10,7 @@ interface Props {
   publishDate?: Date;
   modifiedDate?: Date;
   ogImage?: string;
+  canonicalPath?: string;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   publishDate,
   modifiedDate,
   ogImage,
+  canonicalPath,
 } = Astro.props;
 
 const jsonLDData = {
@@ -34,7 +36,7 @@ const jsonLDData = {
   dateModified: modifiedDate,
 };
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const canonicalURL = new URL(canonicalPath ?? Astro.url.pathname, Astro.site);
 const socialImageURL = ogImage;
 ---
 
