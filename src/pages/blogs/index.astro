@@ -4,8 +4,10 @@ import { getBlogsByPublishDateDesc } from "../../utils/blog";
 import Layout from "src/layouts/Layout.astro";
 
 const blogs = await getBlogsByPublishDateDesc();
+const featuredBlog = blogs[0];
+const recentBlogs = blogs.slice(1);
 ---
 
 <Layout title="Blog">
-  <BlogList blogs={blogs} />
+  <BlogList featuredBlog={featuredBlog} blogs={recentBlogs} />
 </Layout>

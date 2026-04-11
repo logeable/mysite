@@ -1,113 +1,303 @@
 ---
 import type { DataEntryMap } from "astro:content";
-import Layout from "../layouts/Layout.astro";
 import { getBlogUrl } from "../utils/blog";
 
 type BlogEntry = DataEntryMap["blog"][string];
 type Props = {
   blogs: BlogEntry[];
+  featuredBlog?: BlogEntry;
 };
 
-const { blogs } = Astro.props;
+const { blogs, featuredBlog } = Astro.props;
+
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString("zh-CN");
+};
 ---
 
 <div class="container">
-  <ul>
-    {
-      blogs.map((blog: any) => (
-        <li>
-          <h2 class="title">
-            <a href={getBlogUrl(blog)}>{blog.data.title}</a>
-            {blog.data.isAI && <span class="ai-mark">AI</span>}
-          </h2>
-          <p class="date">{blog.data.publishDate.toLocaleDateString()}</p>
-          <p class="description">{blog.data.description}</p>
-        </li>
-      ))
-    }
-  </ul>
+  {
+    featuredBlog && (
+      <article class="featured-post">
+        <div class="featured-header">
+          <div class="featured-rule" aria-hidden="true"></div>
+          <p class="date">{formatDate(featuredBlog.data.publishDate)}</p>
+        </div>
+        <h2 class="featured-title">
+          <a href={getBlogUrl(featuredBlog)}>{featuredBlog.data.title}</a>
+        </h2>
+        <p class="featured-description">{featuredBlog.data.description}</p>
+        <div class="featured-footer">
+          <div class="tags" aria-label="文章标签">
+            {featuredBlog.data.tags.slice(0, 3).map((tag) => <span>{tag}</span>)}
+            {featuredBlog.data.isAI && <span class="ai-mark">AI</span>}
+          </div>
+          <a class="read-more" href={getBlogUrl(featuredBlog)}>阅读全文</a>
+        </div>
+      </article>
+    )
+  }
+
+  <section class="recent-posts" aria-labelledby="recent-posts-title">
+    <div class="recent-header">
+      <h2 id="recent-posts-title">Blogs</h2>
+    </div>
+
+    <ul>
+      {
+        blogs.map((blog: BlogEntry) => (
+          <li>
+            <article class="post-card">
+              <div class="card-meta">
+                <p class="date">{formatDate(blog.data.publishDate)}</p>
+                <div class="tags" aria-label="文章标签">
+                  {blog.data.tags.slice(0, 2).map((tag) => <span>{tag}</span>)}
+                  {blog.data.isAI && <span class="ai-mark">AI</span>}
+                </div>
+              </div>
+              <h3 class="title">
+                <a href={getBlogUrl(blog)}>{blog.data.title}</a>
+              </h3>
+              <p class="description">{blog.data.description}</p>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
 </div>
 
 <style lang="scss">
   .container {
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .featured-post {
+      margin-top: 0.75rem;
+      padding: 1.75rem 2rem 1.9rem;
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent),
+        color-mix(in srgb, var(--bg-color) 94%, var(--primary-color) 6%);
+      border: 1px solid color-mix(in srgb, var(--border-color) 88%, transparent);
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
-    }
+      gap: 1rem;
 
-    li {
-      background: var(--bg-color);
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-      padding: 1.5rem 1.5rem 1rem 1.5rem;
-      transition: box-shadow 0.2s;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
+      .featured-header,
+      .featured-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
 
-      &:hover {
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+      .featured-rule {
+        width: 72px;
+        height: 1px;
+        background: color-mix(
+          in srgb,
+          var(--primary-color) 55%,
+          var(--border-color) 45%
+        );
+      }
+
+      .featured-title {
+        max-width: 18ch;
+        font-size: clamp(2rem, 3vw, 3.2rem);
+        line-height: 1.08;
+        letter-spacing: -0.04em;
+
+        a {
+          color: var(--text-color);
+          text-decoration: none;
+
+          &:hover {
+            color: var(--primary-color);
+          }
+        }
+      }
+
+      .featured-description {
+        max-width: 68ch;
+        color: var(--text-color-secondary);
+        font-size: 1.02rem;
+        line-height: 1.85;
       }
     }
 
-    .title {
+    .recent-posts {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+
+      .recent-header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1rem;
+        flex-wrap: wrap;
+        padding: 0 0.15rem;
+
+        h2 {
+          font-size: 1rem;
+          letter-spacing: -0.03em;
+          text-transform: uppercase;
+          color: var(--text-color-secondary);
+        }
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+
+    .post-card {
+      background: color-mix(in srgb, var(--bg-color) 96%, var(--text-color) 4%);
+      border-radius: 14px;
+      padding: 1.25rem 1.4rem;
+      border: 1px solid color-mix(in srgb, var(--border-color) 82%, transparent);
+      transition:
+        border-color 0.2s,
+        transform 0.2s,
+        background 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+
+      &:hover {
+        transform: translateY(-1px);
+        border-color: color-mix(
+          in srgb,
+          var(--primary-color) 35%,
+          var(--border-color) 65%
+        );
+      }
+    }
+
+    .card-meta {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 0.2rem;
+      justify-content: space-between;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .title {
+      font-size: clamp(1.4rem, 1.8vw, 2rem);
+      line-height: 1.18;
+      letter-spacing: -0.03em;
 
       a {
         text-decoration: none;
         color: var(--text-color);
         font-weight: 700;
         transition: color 0.2s;
+
         &:hover {
           color: var(--primary-color);
         }
       }
-
-      .ai-mark {
-        user-select: none;
-        pointer-events: none;
-        background: linear-gradient(90deg, #0070f3 0%, #00c6ff 100%);
-        color: #fff;
-        padding: 2px 8px;
-        border-radius: 6px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        letter-spacing: 1px;
-        border: 1px solid #e0e0e0;
-        box-shadow: 0 1px 4px rgba(0, 112, 243, 0.08);
-      }
     }
 
     .date {
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       color: var(--text-color-secondary);
       font-style: italic;
-      margin-bottom: 0.2rem;
     }
 
     .description {
-      font-size: 1rem;
+      max-width: 70ch;
+      font-size: 0.98rem;
       color: var(--text-color-secondary);
-      line-height: 1.7;
-      margin-top: 0.2rem;
+      line-height: 1.8;
+    }
+
+    .tags {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+
+      span {
+        display: inline-flex;
+        align-items: center;
+        min-height: 1.75rem;
+        padding: 0.2rem 0.55rem;
+        border-radius: 999px;
+        background: color-mix(
+          in srgb,
+          var(--primary-color) 10%,
+          var(--bg-color) 90%
+        );
+        color: var(--text-color-secondary);
+        font-size: 0.78rem;
+        font-weight: 600;
+      }
+
+      .ai-mark {
+        background: color-mix(
+          in srgb,
+          var(--primary-color) 18%,
+          var(--bg-color) 82%
+        );
+        color: var(--primary-color);
+      }
+    }
+
+    .read-more {
+      color: var(--text-color);
+      font-weight: 700;
+      text-decoration: none;
+
+      &:hover {
+        color: var(--primary-color);
+      }
     }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 720px) {
     .container {
-      padding: 0 0.5rem;
-      ul {
-        gap: 1rem;
+      gap: 1.5rem;
+
+      .featured-post {
+        padding: 1.2rem 1.1rem 1.25rem;
+
+        .featured-title {
+          max-width: none;
+          font-size: 2rem;
+        }
+
+        .featured-description {
+          font-size: 0.98rem;
+          line-height: 1.75;
+        }
       }
-      li {
-        padding: 1rem 0.7rem 0.7rem 0.7rem;
+
+      .recent-posts {
+        .recent-header {
+          align-items: start;
+        }
+      }
+
+      .post-card {
+        padding: 1rem;
+      }
+
+      .title {
+        font-size: 1.25rem;
+      }
+
+      .description {
+        font-size: 0.96rem;
+        line-height: 1.7;
       }
     }
   }
