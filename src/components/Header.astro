@@ -49,6 +49,7 @@ const navigations = [
       }
     </ul>
   </nav>
+  <button class="nav-backdrop" id="nav-backdrop" aria-hidden="true" tabindex="-1"></button>
 </header>
 
 <style lang="scss">
@@ -64,6 +65,7 @@ const navigations = [
       background 0.2s,
       border-bottom-color 0.2s;
     margin: 0 0.2rem;
+    z-index: 30;
   }
 
   .logo a {
@@ -81,21 +83,55 @@ const navigations = [
     display: none;
     flex-direction: column;
     justify-content: center;
-    gap: 5px;
-    width: 36px;
-    height: 36px;
-    background: none;
-    border: none;
+    gap: 4px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: color-mix(in srgb, var(--bg-color) 97%, var(--text-color) 3%);
+    border: 1px solid color-mix(in srgb, var(--text-color) 8%, var(--border-color) 92%);
+    border-radius: 999px;
     cursor: pointer;
     z-index: 20;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
   }
+
   .burger span {
     display: block;
     height: 2px;
-    width: 100%;
+    width: 18px;
+    margin: 0 auto;
     background: var(--text-color);
     border-radius: 999px;
-    transition: background 0.2s;
+    transform-origin: center;
+    transition:
+      background 0.2s ease,
+      transform 0.22s ease,
+      opacity 0.18s ease;
+  }
+
+  .burger:hover {
+    background: color-mix(in srgb, var(--bg-color) 94%, var(--text-color) 6%);
+    border-color: color-mix(in srgb, var(--text-color) 11%, var(--border-color) 89%);
+  }
+
+  .burger[aria-expanded="true"] {
+    background: color-mix(in srgb, var(--bg-color) 94%, var(--text-color) 6%);
+    border-color: color-mix(in srgb, var(--text-color) 12%, var(--border-color) 88%);
+  }
+
+  .burger[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .burger[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .burger[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
   }
 
   nav ul {
@@ -139,45 +175,112 @@ const navigations = [
     background: color-mix(in srgb, var(--text-color) 28%, var(--border-color) 72%);
   }
 
+  .nav-backdrop {
+    display: none;
+  }
+
   @media (max-width: 600px) {
+    header {
+      isolation: isolate;
+    }
+
     .burger {
       display: flex;
       margin-left: auto;
     }
+
+    nav {
+      position: static;
+    }
+
     nav ul {
-      position: absolute;
-      margin: 0 1rem;
-      top: 72px;
-      left: 0;
-      right: 0;
-      background: color-mix(in srgb, var(--bg-color) 96%, var(--text-color) 4%);
+      position: fixed;
+      top: 0.75rem;
+      right: 0.5rem;
+      left: auto;
+      width: min(18rem, calc(100vw - 1rem));
+      margin: 0;
+      background: color-mix(in srgb, var(--bg-color) 98%, var(--text-color) 2%);
       flex-direction: column;
-      gap: 0;
-      border: 1px solid color-mix(in srgb, var(--text-color) 10%, var(--border-color) 90%);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
-      padding: 0.45rem 0;
-      display: none;
-      z-index: 10;
-      transition: all 0.25s;
-    }
-    nav ul.open {
+      gap: 0.1rem;
+      border: 1px solid color-mix(in srgb, var(--text-color) 8%, var(--border-color) 92%);
+      border-radius: 1.15rem;
+      box-shadow: 0 18px 44px rgba(17, 17, 17, 0.08);
+      padding: 4.35rem 0.45rem 0.45rem;
       display: flex;
+      z-index: 18;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-0.35rem) scale(0.985);
+      transition:
+        opacity 0.22s ease,
+        transform 0.22s ease,
+        visibility 0.22s ease;
     }
+
+    nav ul.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
     nav li {
       width: 100%;
-      text-align: center;
-      padding: 0.55rem 0;
+      text-align: left;
+      padding: 0;
     }
+
     nav a {
-      font-size: 0.9rem;
-      padding: 0.1rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 2.95rem;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.98rem;
+      letter-spacing: 0.01em;
+      border-radius: 0.8rem;
+      transition:
+        color 0.2s ease,
+        background 0.2s ease;
     }
+
+    nav a:hover {
+      background: color-mix(in srgb, var(--bg-color) 95%, var(--text-color) 5%);
+    }
+
+    nav a.active {
+      background: color-mix(in srgb, var(--bg-color) 95%, var(--text-color) 5%);
+    }
+
     nav a.active::after {
-      left: 50%;
-      right: auto;
-      width: 1.5rem;
-      transform: translateX(-50%);
-      bottom: -0.25rem;
+      left: 0.9rem;
+      right: 0.9rem;
+      width: auto;
+      transform: none;
+      bottom: 0.45rem;
+      background: color-mix(in srgb, var(--text-color) 20%, var(--border-color) 80%);
+    }
+
+    .nav-backdrop {
+      position: fixed;
+      inset: 0;
+      display: block;
+      border: 0;
+      padding: 0;
+      background: color-mix(in srgb, var(--bg-color) 54%, transparent);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+      z-index: 12;
+    }
+
+    .nav-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
     }
   }
 
@@ -212,16 +315,46 @@ const navigations = [
 <script is:inline>
   const burger = document.getElementById("burger-btn");
   const menu = document.getElementById("nav-menu");
-  burger.addEventListener("click", () => {
-    const expanded = burger.getAttribute("aria-expanded") === "true";
-    burger.setAttribute("aria-expanded", !expanded);
-    menu.classList.toggle("open");
-  });
-  // 点击菜单项后自动收起
-  menu.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      burger.setAttribute("aria-expanded", false);
+  const backdrop = document.getElementById("nav-backdrop");
+
+  if (burger && menu && backdrop) {
+    const closeMenu = () => {
+      burger.setAttribute("aria-expanded", "false");
       menu.classList.remove("open");
+      backdrop.classList.remove("open");
+    };
+
+    const openMenu = () => {
+      burger.setAttribute("aria-expanded", "true");
+      menu.classList.add("open");
+      backdrop.classList.add("open");
+    };
+
+    burger.addEventListener("click", () => {
+      const expanded = burger.getAttribute("aria-expanded") === "true";
+      if (expanded) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
     });
-  });
+
+    backdrop.addEventListener("click", closeMenu);
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 600) {
+        closeMenu();
+      }
+    });
+  }
 </script>
