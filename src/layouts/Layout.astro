@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import type { ImageMetadata } from "astro";
 import Header from "../components/Header.astro";
 import CONFIG from "../config.ts";
 import Footer from "../components/Footer.astro";
@@ -9,7 +10,7 @@ interface Props {
   description?: string;
   publishDate?: Date;
   modifiedDate?: Date;
-  ogImage?: string;
+  ogImage?: string | ImageMetadata;
   canonicalPath?: string;
 }
 
@@ -37,7 +38,10 @@ const jsonLDData = {
 };
 
 const canonicalURL = new URL(canonicalPath ?? Astro.url.pathname, Astro.site);
-const socialImageURL = ogImage;
+const socialImageURL = ogImage
+  ? new URL(typeof ogImage === "string" ? ogImage : ogImage.src, Astro.site)
+      .toString()
+  : undefined;
 ---
 
 <!doctype html>
