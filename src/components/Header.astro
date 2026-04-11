@@ -53,24 +53,26 @@ const navigations = [
 
 <style lang="scss">
   header {
-    height: 64px;
+    height: 72px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 3px solid #ccc;
+    border-bottom: 1px solid color-mix(in srgb, var(--text-color) 10%, var(--border-color) 90%);
     position: relative;
-    background: #fff;
+    background: transparent;
     transition:
       background 0.2s,
       border-bottom-color 0.2s;
-    margin: 0 0.5rem;
+    margin: 0 0.2rem;
   }
 
   .logo a {
     text-decoration: none;
-    color: #000;
-    font-weight: bolder;
-    font-size: 2rem;
+    color: var(--text-color);
+    font-weight: 800;
+    font-size: clamp(2rem, 3vw, 3rem);
+    letter-spacing: -0.06em;
+    line-height: 0.95;
     white-space: nowrap;
     transition: color 0.2s;
   }
@@ -89,43 +91,52 @@ const navigations = [
   }
   .burger span {
     display: block;
-    height: 3px;
+    height: 2px;
     width: 100%;
-    background: #222;
-    border-radius: 2px;
+    background: var(--text-color);
+    border-radius: 999px;
     transition: background 0.2s;
   }
 
   nav ul {
     display: flex;
     list-style: none;
-    gap: 1rem;
+    gap: 1.4rem;
     margin: 0;
     padding: 0;
     flex-wrap: wrap;
-    background: #fff;
-    transition: background 0.2s;
+    background: transparent;
   }
 
   nav a {
     text-decoration: none;
-    color: #000;
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
+    color: color-mix(in srgb, var(--text-color) 88%, var(--text-color-secondary) 12%);
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.1rem 0;
+    border-radius: 0;
+    position: relative;
     transition:
       color 0.2s,
-      background 0.2s;
+      opacity 0.2s;
   }
 
   nav a:hover {
-    color: var(--primary-color);
+    color: var(--text-color);
   }
   nav a.active {
-    text-decoration: underline;
-    text-decoration-style: wavy;
-    color: var(--primary-color);
+    color: var(--text-color);
+  }
+
+  nav a.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.35rem;
+    height: 1px;
+    background: color-mix(in srgb, var(--text-color) 28%, var(--border-color) 72%);
   }
 
   @media (max-width: 600px) {
@@ -136,17 +147,18 @@ const navigations = [
     nav ul {
       position: absolute;
       margin: 0 1rem;
-      top: 64px;
+      top: 72px;
       left: 0;
       right: 0;
-      background: #fff;
+      background: color-mix(in srgb, var(--bg-color) 96%, var(--text-color) 4%);
       flex-direction: column;
       gap: 0;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-      padding: 0.5rem 0;
+      border: 1px solid color-mix(in srgb, var(--text-color) 10%, var(--border-color) 90%);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+      padding: 0.45rem 0;
       display: none;
       z-index: 10;
-      transition: all 0.3s;
+      transition: all 0.25s;
     }
     nav ul.open {
       display: flex;
@@ -154,38 +166,45 @@ const navigations = [
     nav li {
       width: 100%;
       text-align: center;
-      padding: 0.7rem 0;
-    }
-    nav ul {
-      gap: 0.5rem;
-      flex-wrap: wrap;
+      padding: 0.55rem 0;
     }
     nav a {
-      font-size: 0.95rem;
-      padding: 0.15rem 0.4rem;
+      font-size: 0.9rem;
+      padding: 0.1rem 0;
+    }
+    nav a.active::after {
+      left: 50%;
+      right: auto;
+      width: 1.5rem;
+      transform: translateX(-50%);
+      bottom: -0.25rem;
     }
   }
 
   @media (prefers-color-scheme: dark) {
     header {
-      background: #18181c;
-      border-bottom-color: #333;
+      background: transparent;
+      border-bottom-color: color-mix(
+        in srgb,
+        var(--text-color) 12%,
+        var(--border-color) 88%
+      );
     }
     .logo a {
-      color: #fff;
+      color: var(--text-color);
     }
     .burger span {
-      background: #eee;
+      background: var(--text-color);
     }
     nav ul {
-      background: #23232a;
+      background: transparent;
     }
     nav a {
-      color: #eee;
+      color: color-mix(in srgb, var(--text-color) 86%, var(--text-color-secondary) 14%);
     }
     nav a:hover,
     nav a.active {
-      color: var(--primary-color);
+      color: var(--text-color);
     }
   }
 </style>

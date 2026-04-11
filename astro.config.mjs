@@ -13,7 +13,7 @@ export default defineConfig({
   site: "https://www.logeable.com",
   integrations: [
     expressiveCode({
-      themes: ["dracula"],
+      themes: ["github-light"],
     }),
     sitemap(),
     mdx(),

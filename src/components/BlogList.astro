@@ -13,15 +13,24 @@ const { blogs, featuredBlog } = Astro.props;
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("zh-CN");
 };
+
+const formatDateParts = (date: Date) => {
+  const [year, month, day] = date.toISOString().slice(0, 10).split("-");
+  return { year, month, day };
+};
 ---
 
 <div class="container">
   {
     featuredBlog && (
       <article class="featured-post">
+        <div class="featured-date-block" aria-hidden="true">
+          <span class="month">{formatDateParts(featuredBlog.data.publishDate).month}</span>
+          <span class="day">{formatDateParts(featuredBlog.data.publishDate).day}</span>
+          <span class="year">{formatDateParts(featuredBlog.data.publishDate).year}</span>
+        </div>
         <div class="featured-header">
           <div class="featured-rule" aria-hidden="true"></div>
-          <p class="date">{formatDate(featuredBlog.data.publishDate)}</p>
         </div>
         <h2 class="featured-title">
           <a href={getBlogUrl(featuredBlog)}>{featuredBlog.data.title}</a>
@@ -32,7 +41,6 @@ const formatDate = (date: Date) => {
             {featuredBlog.data.tags.slice(0, 3).map((tag) => <span>{tag}</span>)}
             {featuredBlog.data.isAI && <span class="ai-mark">AI</span>}
           </div>
-          <a class="read-more" href={getBlogUrl(featuredBlog)}>阅读全文</a>
         </div>
       </article>
     )
@@ -48,17 +56,22 @@ const formatDate = (date: Date) => {
         blogs.map((blog: BlogEntry) => (
           <li>
             <article class="post-card">
-              <div class="card-meta">
-                <p class="date">{formatDate(blog.data.publishDate)}</p>
-                <div class="tags" aria-label="文章标签">
-                  {blog.data.tags.slice(0, 2).map((tag) => <span>{tag}</span>)}
-                  {blog.data.isAI && <span class="ai-mark">AI</span>}
-                </div>
+              <div class="post-date-rail" aria-hidden="true">
+                <span class="month">{formatDateParts(blog.data.publishDate).month}</span>
+                <span class="day">{formatDateParts(blog.data.publishDate).day}</span>
               </div>
-              <h3 class="title">
-                <a href={getBlogUrl(blog)}>{blog.data.title}</a>
-              </h3>
-              <p class="description">{blog.data.description}</p>
+              <div class="post-body">
+                <div class="card-meta">
+                  <div class="tags" aria-label="文章标签">
+                    {blog.data.tags.slice(0, 2).map((tag) => <span>{tag}</span>)}
+                    {blog.data.isAI && <span class="ai-mark">AI</span>}
+                  </div>
+                </div>
+                <h3 class="title">
+                  <a href={getBlogUrl(blog)}>{blog.data.title}</a>
+                </h3>
+                <p class="description">{blog.data.description}</p>
+              </div>
             </article>
           </li>
         ))
@@ -71,67 +84,90 @@ const formatDate = (date: Date) => {
   .container {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.75rem;
 
     .featured-post {
-      margin-top: 0.75rem;
-      padding: 1.75rem 2rem 1.9rem;
-      border-radius: 18px;
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent),
-        color-mix(in srgb, var(--bg-color) 94%, var(--primary-color) 6%);
-      border: 1px solid color-mix(in srgb, var(--border-color) 88%, transparent);
+      position: relative;
+      margin-top: 0.35rem;
+      padding: 1.7rem 0 2.15rem 8rem;
+      border-radius: 0;
+      background: transparent;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.1rem;
+
+      .featured-date-block {
+        position: absolute;
+        left: 0;
+        top: 1.55rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 0.95;
+
+        .month,
+        .year {
+          color: var(--text-color-secondary);
+          font-size: 0.68rem;
+          font-weight: 600;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+        }
+
+        .day {
+          margin: 0.18rem 0 0.08rem;
+          font-size: 3.2rem;
+          font-weight: 600;
+          letter-spacing: -0.09em;
+          color: var(--text-color);
+        }
+      }
 
       .featured-header,
       .featured-footer {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
         gap: 1rem;
         flex-wrap: wrap;
       }
 
       .featured-rule {
-        width: 72px;
+        width: 112px;
         height: 1px;
-        background: color-mix(
-          in srgb,
-          var(--primary-color) 55%,
-          var(--border-color) 45%
-        );
+        background: color-mix(in srgb, var(--text-color) 16%, var(--border-color) 84%);
       }
 
       .featured-title {
-        max-width: 18ch;
-        font-size: clamp(2rem, 3vw, 3.2rem);
-        line-height: 1.08;
-        letter-spacing: -0.04em;
+        max-width: 16ch;
+        font-family: Iowan Old Style, Palatino Linotype, Book Antiqua, Georgia,
+          serif;
+        font-size: clamp(2.2rem, 3.2vw, 3.5rem);
+        line-height: 0.98;
+        letter-spacing: -0.045em;
 
         a {
           color: var(--text-color);
           text-decoration: none;
 
           &:hover {
-            color: var(--primary-color);
+            color: color-mix(in srgb, var(--text-color) 88%, var(--primary-color) 12%);
           }
         }
       }
 
       .featured-description {
-        max-width: 68ch;
+        max-width: 64ch;
         color: var(--text-color-secondary);
-        font-size: 1.02rem;
-        line-height: 1.85;
+        font-size: 0.97rem;
+        line-height: 1.88;
       }
     }
 
     .recent-posts {
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 0.9rem;
 
       .recent-header {
         display: flex;
@@ -142,8 +178,8 @@ const formatDate = (date: Date) => {
         padding: 0 0.15rem;
 
         h2 {
-          font-size: 1rem;
-          letter-spacing: -0.03em;
+          font-size: 0.76rem;
+          letter-spacing: 0.18em;
           text-transform: uppercase;
           color: var(--text-color-secondary);
         }
@@ -155,67 +191,102 @@ const formatDate = (date: Date) => {
         margin: 0;
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.2rem;
       }
     }
 
     .post-card {
-      background: color-mix(in srgb, var(--bg-color) 96%, var(--text-color) 4%);
-      border-radius: 14px;
-      padding: 1.25rem 1.4rem;
-      border: 1px solid color-mix(in srgb, var(--border-color) 82%, transparent);
+      display: grid;
+      grid-template-columns: 68px minmax(0, 1fr);
+      column-gap: 1.1rem;
+      align-items: start;
+      background: transparent;
+      border-radius: 0;
+      padding: 1.35rem 0.15rem 1.55rem;
+      border-top: 1px solid
+        color-mix(in srgb, var(--text-color) 8%, var(--border-color) 92%);
       transition:
         border-color 0.2s,
-        transform 0.2s,
-        background 0.2s;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
+        transform 0.2s;
 
       &:hover {
-        transform: translateY(-1px);
+        transform: translateX(3px);
         border-color: color-mix(
           in srgb,
-          var(--primary-color) 35%,
-          var(--border-color) 65%
+          var(--text-color) 16%,
+          var(--border-color) 84%
         );
       }
+    }
+
+    .post-date-rail {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-top: 0.05rem;
+      line-height: 0.95;
+
+      .month {
+        color: var(--text-color-secondary);
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .day {
+        margin-top: 0.16rem;
+        font-size: 1.9rem;
+        font-weight: 600;
+        letter-spacing: -0.08em;
+        color: var(--text-color);
+      }
+    }
+
+    .post-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.72rem;
+      min-width: 0;
     }
 
     .card-meta {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       gap: 0.8rem;
       flex-wrap: wrap;
     }
 
     .title {
-      font-size: clamp(1.4rem, 1.8vw, 2rem);
-      line-height: 1.18;
-      letter-spacing: -0.03em;
+      max-width: 24ch;
+      font-family: Iowan Old Style, Palatino Linotype, Book Antiqua, Georgia,
+        serif;
+      font-size: clamp(1.45rem, 1.9vw, 2.05rem);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
 
       a {
         text-decoration: none;
         color: var(--text-color);
-        font-weight: 700;
+        font-weight: 600;
         transition: color 0.2s;
 
         &:hover {
-          color: var(--primary-color);
+          color: color-mix(in srgb, var(--text-color) 88%, var(--primary-color) 12%);
         }
       }
     }
 
     .date {
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       color: var(--text-color-secondary);
       font-style: italic;
     }
 
     .description {
-      max-width: 70ch;
-      font-size: 0.98rem;
+      max-width: 62ch;
+      font-size: 0.93rem;
       color: var(--text-color-secondary);
       line-height: 1.8;
     }
@@ -229,55 +300,51 @@ const formatDate = (date: Date) => {
       span {
         display: inline-flex;
         align-items: center;
-        min-height: 1.75rem;
-        padding: 0.2rem 0.55rem;
-        border-radius: 999px;
-        background: color-mix(
-          in srgb,
-          var(--primary-color) 10%,
-          var(--bg-color) 90%
-        );
+        min-height: 1.45rem;
+        padding: 0.1rem 0;
+        border-radius: 0;
+        background: transparent;
         color: var(--text-color-secondary);
-        font-size: 0.78rem;
-        font-weight: 600;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
       }
 
       .ai-mark {
-        background: color-mix(
-          in srgb,
-          var(--primary-color) 18%,
-          var(--bg-color) 82%
-        );
-        color: var(--primary-color);
-      }
-    }
-
-    .read-more {
-      color: var(--text-color);
-      font-weight: 700;
-      text-decoration: none;
-
-      &:hover {
-        color: var(--primary-color);
+        color: color-mix(in srgb, var(--text-color) 76%, var(--primary-color) 24%);
       }
     }
   }
 
   @media (max-width: 720px) {
     .container {
-      gap: 1.5rem;
+      gap: 2rem;
 
       .featured-post {
-        padding: 1.2rem 1.1rem 1.25rem;
+        padding: 1.15rem 0 1.35rem;
+        padding-left: 0;
+
+        .featured-date-block {
+          position: static;
+          flex-direction: row;
+          align-items: baseline;
+          gap: 0.45rem;
+
+          .day {
+            margin: 0;
+            font-size: 1.9rem;
+          }
+        }
 
         .featured-title {
           max-width: none;
-          font-size: 2rem;
+          font-size: 1.95rem;
         }
 
         .featured-description {
-          font-size: 0.98rem;
-          line-height: 1.75;
+          font-size: 0.96rem;
+          line-height: 1.72;
         }
       }
 
@@ -288,16 +355,31 @@ const formatDate = (date: Date) => {
       }
 
       .post-card {
-        padding: 1rem;
+        grid-template-columns: 1fr;
+        padding: 1rem 0.1rem 1.1rem;
+        row-gap: 0.55rem;
+      }
+
+      .post-date-rail {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 0.35rem;
+
+        .day {
+          margin-top: 0;
+          font-size: 1.15rem;
+        }
       }
 
       .title {
-        font-size: 1.25rem;
+        max-width: none;
+        font-size: 1.22rem;
       }
 
       .description {
-        font-size: 0.96rem;
-        line-height: 1.7;
+        max-width: none;
+        font-size: 0.94rem;
+        line-height: 1.68;
       }
     }
   }
