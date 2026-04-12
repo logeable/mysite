@@ -8,6 +8,9 @@ const featuredBlog = blogs[0];
 const recentBlogs = blogs.slice(1);
 ---
 
-<Layout title="Blog">
+<Layout
+  title="Blog | logeable"
+  description="logeable 的博客列表，记录独立开发、AI、SEO、Go、Rust 和产品实践中的经验、复盘与思考。"
+>
   <BlogList featuredBlog={featuredBlog} blogs={recentBlogs} />
 </Layout>

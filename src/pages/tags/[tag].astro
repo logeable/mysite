@@ -22,7 +22,10 @@ const blogs = await getCollection("blog");
 const filteredBlogs = blogs.filter((blog) => blog.data.tags.includes(tag));
 ---
 
-<Layout title={tag}>
+<Layout
+  title={`${tag} | logeable`}
+  description={`查看 logeable 中与 ${tag} 相关的文章与内容。`}
+>
   <h1>TAG: {tag}</h1>
   <BlogList blogs={filteredBlogs} />
 </Layout>

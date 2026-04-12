@@ -1,3 +1,14 @@
 ---
-return Astro.rewrite("/blogs");
+import BlogList from "@components/BlogList.astro";
+import Layout from "../layouts/Layout.astro";
+import CONFIG from "../config";
+import { getBlogsByPublishDateDesc } from "../utils/blog";
+
+const blogs = await getBlogsByPublishDateDesc();
+const featuredBlog = blogs[0];
+const recentBlogs = blogs.slice(1);
 ---
+
+<Layout title={CONFIG.title} description={CONFIG.description} canonicalPath="/">
+  <BlogList featuredBlog={featuredBlog} blogs={recentBlogs} />
+</Layout>

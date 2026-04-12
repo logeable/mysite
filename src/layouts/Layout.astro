@@ -17,31 +17,43 @@ interface Props {
 const {
   title = CONFIG.title,
   author = CONFIG.author,
-  description,
+  description = CONFIG.description,
   publishDate,
   modifiedDate,
   ogImage,
   canonicalPath,
 } = Astro.props;
 
-const jsonLDData = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  headline: title,
-  description: description,
-  author: {
-    "@type": "Person",
-    name: author,
-  },
-  datePublished: publishDate,
-  dateModified: modifiedDate,
-};
-
 const canonicalURL = new URL(canonicalPath ?? Astro.url.pathname, Astro.site);
 const socialImageURL = ogImage
   ? new URL(typeof ogImage === "string" ? ogImage : ogImage.src, Astro.site)
       .toString()
   : undefined;
+const jsonLDData = publishDate
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: title,
+      description,
+      author: {
+        "@type": "Person",
+        name: author,
+      },
+      datePublished: publishDate,
+      dateModified: modifiedDate,
+      mainEntityOfPage: canonicalURL.toString(),
+    }
+  : {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: title,
+      description,
+      url: canonicalURL.toString(),
+      author: {
+        "@type": "Person",
+        name: author,
+      },
+    };
 ---
 
 <!doctype html>
@@ -56,6 +68,7 @@ const socialImageURL = ogImage
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content={author} />
+    <link rel="canonical" href={canonicalURL} />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Open Graph / Facebook -->
